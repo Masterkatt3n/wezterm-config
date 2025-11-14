@@ -45,6 +45,19 @@ Your current theme is automatically saved to:
 
 …and restored at startup.
 
+### 📌 Custom Themes Folder
+
+This configuration supports additional color themes stored inside a `color/` folder.
+
+To add your own themes:
+
+1. Create a directory named `color` in the config root  
+2. Place any theme files inside it (example: `color/tokyodak.lua`)  
+3. Reference them from `color_schemes.lua` using:
+
+```lua
+local tokyodak = require("color.tokyodak")
+```
 **Included:**
 
 - Tokyodak (custom)
