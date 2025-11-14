@@ -1,0 +1,6 @@
+.wezterm-current-scheme.txt
+
+*.zip
+*.otf
+*.ttf
+!fonts/JetBrainsMonoNerdFontMono-Regular.ttf

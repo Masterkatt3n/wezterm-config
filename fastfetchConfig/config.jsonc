@@ -1,0 +1,103 @@
+{
+  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+  "logo": "windows",
+  "display": {
+    "separator": " 󰑃  "
+  },
+  "modules": [
+    //    {
+    //      "type": "custom",
+    //      "format": "┌─────────────────────────── System Info ───────────────────────────┐"
+    //    },
+    // --- OS Section ---
+    {
+      "type": "os",
+      "key": " OS",
+      "keyColor": "yellow"
+    },
+    {
+      "type": "kernel",
+      "key": "│ ├",
+      "keyColor": "yellow"
+    },
+    {
+      "type": "shell",
+      "key": "│ └",
+      "keyColor": "yellow"
+    },
+    // --- Host Section ---
+    {
+      "type": "host",
+      "key": "󰌢 SYSTEM",
+      "keyColor": "green"
+    },
+    {
+      "type": "cpu",
+      "key": "│ ├",
+      "keyColor": "green"
+    },
+    {
+      "type": "gpu",
+      "key": "│ └",
+      "format": "{2}",
+      "keyColor": "green"
+    },
+    {
+      "type": "memory",
+      "key": "│ ├",
+      "keyColor": "green"
+    },
+    {
+      "type": "disk",
+      "key": "│ ├",
+      "keyColor": "green"
+    },
+    {
+      "type": "display",
+      "key": "󰍹 DISPLAY",
+      "keyColor": "blue"
+    },
+    {
+      "type": "display",
+      "key": "│ ├󰍹",
+      "keyColor": "blue",
+      "compactType": "scaled-with-refresh-rate"
+    },
+    {
+      "type": "uptime",
+      "key": "󰅐 UPTIME",
+      "keyColor": "magenta"
+    },
+    // --- Network Section ---
+    {
+      "type": "custom",
+      "format": " NETWORK",
+      "keyColor": "white"
+    },
+    {
+      "type": "localip",
+      "key": "│ ├",
+      "keyColor": "white"
+    },
+    {
+      "type": "wifi",
+      "key": "│ ├",
+      "keyColor": "white"
+    },
+    {
+      "type": "publicip",
+      "key": "│ └",
+      "keyColor": "white"
+    },
+    // --- Footer ---
+    //    {
+    //      "type": "custom",
+    //      "format": "└────────────────────────────────────────────────────────────────────┘"
+    //    },
+    {
+      "type": "custom",
+      "format": "\u001b[90m  \u001b[31m  \u001b[32m  \u001b[33m  \u001b[34m  \u001b[35m  \u001b[36m  \u001b[37m  \u001b[90m  \u001b[31m  \u001b[32m  \u001b[33m  \u001b[34m  \u001b[35m  \u001b[36m  \u001b[37m"
+    },
+    "break"
+  ]
+}
