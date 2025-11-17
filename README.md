@@ -120,7 +120,7 @@ default_prog = { "/usr/bin/env", "bash" }
 ### Linux / macOS
 
 ```bash
-git clone https://github.com/USERNAME/wezterm ~/.config/wezterm
+git clone https://github.com/Masterkatt3n/wezterm ~/.config/wezterm
 ```
 
 ### Windows
