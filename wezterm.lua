@@ -110,6 +110,9 @@ return {
 	color_scheme = saved or color_schemes[scheme_index],
 
 	window_background_image = wezdir .. "/background/background.png",
+	colors = {
+		background = "#11121d", --Optional, override to constantly dim brighter colorschemes
+	},
 
 	--------------------------------------------------------
 	-- Shell (auto-cross-platform)
@@ -132,9 +135,24 @@ return {
 		{
 			event = { Down = { streak = 1, button = "Right" } },
 			mods = "NONE",
-			action = act.PasteFrom("Clipboard"),
+			action = act.PasteFrom("Clipboard"), --Highlight <text>, paste it by clicking once
 		},
 	},
+
+	---------------------------------------------------------
+	-- SSH
+	---------------------------------------------------------
+	-- ssh_domains = {
+	-- 	{
+	-- 		name = "",
+	-- 		remote_address = "",
+	-- 		username = "",
+	-- 		ssh_option = {
+	-- 			port = "22",
+	-- 			identity_file = "",  -- Example: "C:\\Users\\<you>\\.ssh\\id_ed25519",
+	-- 		},
+	-- 	},
+	-- },
 
 	--------------------------------------------------------
 	-- Environment
