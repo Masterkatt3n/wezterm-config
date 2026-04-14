@@ -59,6 +59,8 @@ end
 ----------------------------------------------------------
 -- Events
 ----------------------------------------------------------
+
+-- Cycle available themes
 wezterm.on("toggle-color-scheme", function(window, _)
 	scheme_index = scheme_index + 1
 	if scheme_index > #color_schemes then
@@ -71,13 +73,25 @@ wezterm.on("toggle-color-scheme", function(window, _)
 	window:set_config_overrides({
 		color_scheme = scheme,
 	})
+	window:toast_notification("Theme changed (saved)", scheme, nil, 3000)
+end)
 
-	window:toast_notification("WezTerm Theme", scheme, nil, 2500)
+-- Toast theme in use
+wezterm.on("show-theme", function(window, _)
+	local current = read_saved()
+	if not current or current == "" then
+		current = "<none>"
+	end
+
+	window:toast_notification("Current Theme", current, nil, 3000)
 end)
 
 -- Display PowerShell version + ADMIN marker in status area
 wezterm.on("update-right-status", function(window, pane)
-	local is_admin = wezterm.is_process_elevated and wezterm.is_process_elevated()
+	local is_admin = false
+	if wezterm.is_process_elevated then
+		is_admin = select(2, pcall(wezterm.is_process_elevated)) or false
+	end
 	local admin_flag = (is_admin and wezterm.target_triple:find("windows")) and " [ADMIN]" or ""
 
 	local ps_version = pane:get_user_vars().PSVersion or ""
@@ -124,8 +138,12 @@ return {
 	--------------------------------------------------------
 	keys = {
 		{ key = "T", mods = "CTRL|SHIFT", action = act.EmitEvent("toggle-color-scheme") },
+		{ key = "Z", mods = "CTRL|SHIFT", action = act.EmitEvent("show-theme") },
 		{ key = "I", mods = "CTRL|SHIFT", action = act.EmitEvent("show-config-info") },
 		{ key = "R", mods = "CTRL|SHIFT", action = act.ReloadConfiguration },
+
+		-- Open new tab (same domain)
+		{ key = "t", mods = "CTRL", action = act.SpawnTab("CurrentPaneDomain") },
 	},
 
 	--------------------------------------------------------

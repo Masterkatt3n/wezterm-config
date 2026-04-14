@@ -51,13 +51,14 @@ This configuration supports additional color themes stored inside a `color/` fol
 
 To add your own themes:
 
-1. Create a directory named `color` in the config root  
-2. Place any theme files inside it (example: `color/tokyodak.lua`)  
+1. Create a directory named `color` in the config root
+2. Place any theme files inside it (example: `color/tokyodak.lua`)
 3. Reference them from `color_schemes.lua` using:
 
 ```lua
 local tokyodak = require("color.tokyodak")
 ```
+
 **Included:**
 
 - Tokyodak (custom)
@@ -90,8 +91,10 @@ Right-click pastes from the clipboard (classic Linux behavior).
 | Keys               | Action                       |
 | ------------------ | ---------------------------- |
 | `CTRL + SHIFT + T` | Toggle theme                 |
+| `CTRL + SHIFT + Z` | Show current theme           |
 | `CTRL + SHIFT + I` | Show config info toast       |
 | `CTRL + SHIFT + R` | Reload WezTerm configuration |
+| `CTRL + t`         | Open new tab                 |
 
 ---
 
