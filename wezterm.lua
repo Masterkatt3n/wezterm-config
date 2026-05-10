@@ -13,11 +13,45 @@ local wezdir = home .. "/.config/wezterm"
 package.path = package.path .. (";%s/?.lua;%s/?/init.lua"):format(wezdir, wezdir)
 
 ----------------------------------------------------------
--- Load color scheme list
+-- Prepare and load color scheme list
 ----------------------------------------------------------
-local ok, color_schemes = pcall(require, "color_schemes")
-if not ok then
-	wezterm.log_error("Failed to load color_schemes.lua: " .. tostring(color_schemes))
+local all = wezterm.get_builtin_color_schemes()
+local color_table = {}
+
+-- Filter out unwanted built-in scheme groups
+for name, _ in pairs(all) do
+	local lower = name:lower()
+
+	-- or comment out a line you'd with to include
+	if
+		not lower:find("light")
+		and not lower:find("gogh")
+		and not lower:find("base16")
+		and not lower:find("terminal.sexy")
+	then
+		table.insert(color_table, name)
+	end
+end
+
+table.sort(color_table)
+
+-- write schemes to file
+local all_schemes_file = wezterm.home_dir .. "/.wezterm/color_schemes"
+local fi = io.open(all_schemes_file, "w")
+if fi then
+	fi:write(table.concat(color_table, "\n"))
+	fi:write("\n")
+	fi:close()
+end
+
+--load the file
+local color_schemes = color_table
+
+local ok, loaded = pcall(require, "color_schemes")
+if ok and type(loaded) == "table" then
+	color_schemes = loaded
+else
+	wezterm.log_error("Failed to load color_schemes.lua")
 	color_schemes = { "Builtin Dark" }
 end
 
