@@ -3,11 +3,11 @@
 A clean and fully-customizable WezTerm setup designed for Windows & Linux, with:
 
 - 🔄 Persistent color-scheme switching
-- 🎨 Curated list of color themes (including custom Tokyodak)
+- 🎨 Fetch and sorts a list of color themes from the builtin selection
 - 🖼 Optional wallpaper support
 - 💻 Custom fastfetch system summary
 - 🧩 Cross-platform-safe paths
-- 🖱 Quality-of-life mouse tweaks
+- 🖱 Quality-of-life mouse and keybinding tweaks
 - 🪟 PowerShell-aware statusline on Windows
 - 🔠 Nerd Font support
 
@@ -35,7 +35,7 @@ wezterm/
 
 ### 🎨 Theme Switching
 
-Press **CTRL + SHIFT + T** to cycle through all themes listed in `color_schemes.lua`.
+Press **CTRL + SHIFT + S** to cycle through all themes listed in `color_schemes.lua`.
 
 Your current theme is automatically saved to:
 
@@ -47,7 +47,9 @@ Your current theme is automatically saved to:
 
 ### 📌 Custom Themes Folder
 
-This configuration supports additional color themes stored inside a `color/` folder.
+This configuration supports additional color themes stored inside a `color/` folder,
+if you'd like to pick a more pesonal selection or create you own.
+You'll need to make adjustments from the default, sourcing hosted ones however.
 
 To add your own themes:
 
@@ -90,11 +92,11 @@ Right-click pastes from the clipboard (classic Linux behavior).
 
 | Keys               | Action                       |
 | ------------------ | ---------------------------- |
-| `CTRL + SHIFT + T` | Toggle theme                 |
+| `CTRL + SHIFT + T` | Open new tab                 |
 | `CTRL + SHIFT + Z` | Show current theme           |
-| `CTRL + SHIFT + I` | Show config info toast       |
+| `CTRL + SHIFT + S` | Toggle color schemes         |
 | `CTRL + SHIFT + R` | Reload WezTerm configuration |
-| `CTRL + t`         | Open new tab                 |
+| `CTRL +  Tab`      | Toggle tabs                  |
 
 ---
 
@@ -135,6 +137,46 @@ C:\Users\<you>\.config\wezterm\
 ```
 
 Restart WezTerm afterward.
+
+---
+
+## Windows Toast Notifications & Portable WezTerm
+
+On Windows 11, portable/unpacked WezTerm builds may lose native toast notification support if no Start Menu shortcut exists.
+
+Symptoms may include:
+
+- `window:toast_notification()` callbacks firing normally
+- no visible toast banners
+- WezTerm missing from:
+  - `Settings -> Notifications`
+  - Installed Apps
+
+- no notification registration persistence
+
+The fix is simply to create a Start Menu shortcut:
+
+```text
+%APPDATA%\Microsoft\Windows\Start Menu\Programs\WezTerm.lnk
+```
+
+pointing to:
+
+```text
+C:\Users\<user>\WezTerm\wezterm-gui.exe
+```
+
+After restarting WezTerm from the Start Menu shortcut:
+
+- toast notifications return
+- WezTerm reappears in Notification Settings
+- Windows restores proper application identity handling
+
+This allows fully portable WezTerm setups without requiring:
+
+- Program Files installation
+- MSI persistence
+- installer metadata retention
 
 ---
 

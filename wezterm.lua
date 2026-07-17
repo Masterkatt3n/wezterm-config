@@ -20,17 +20,17 @@ local color_table = {}
 
 -- Filter out unwanted built-in scheme groups
 for name, _ in pairs(all) do
-	local lower = name:lower()
+    local lower = name:lower()
 
-	-- or comment out a line you'd with to include
-	if
-		not lower:find("light")
-		and not lower:find("gogh")
-		and not lower:find("base16")
-		and not lower:find("terminal.sexy")
-	then
-		table.insert(color_table, name)
-	end
+    -- or comment out a line you'd with to include
+    if
+        not lower:find("light")
+        and not lower:find("gogh")
+        and not lower:find("base16")
+        and not lower:find("terminal.sexy")
+    then
+        table.insert(color_table, name)
+    end
 end
 
 table.sort(color_table)
@@ -39,9 +39,9 @@ table.sort(color_table)
 local all_schemes_file = wezterm.home_dir .. "/.wezterm/color_schemes"
 local fi = io.open(all_schemes_file, "w")
 if fi then
-	fi:write(table.concat(color_table, "\n"))
-	fi:write("\n")
-	fi:close()
+    fi:write(table.concat(color_table, "\n"))
+    fi:write("\n")
+    fi:close()
 end
 
 --load the file
@@ -49,10 +49,10 @@ local color_schemes = color_table
 
 local ok, loaded = pcall(require, "color_schemes")
 if ok and type(loaded) == "table" then
-	color_schemes = loaded
+    color_schemes = loaded
 else
-	wezterm.log_error("Failed to load color_schemes.lua")
-	color_schemes = { "Builtin Dark" }
+    wezterm.log_error("Failed to load color_schemes.lua")
+    color_schemes = { "Builtin Dark" }
 end
 
 ----------------------------------------------------------
@@ -62,32 +62,32 @@ local scheme_file = wezdir .. "/.wezterm-current-scheme"
 local scheme_index = 1
 
 local function read_saved()
-	local f = io.open(scheme_file, "r")
-	if not f then
-		return nil
-	end
-	local line = f:read("*l")
-	f:close()
-	return line
+    local f = io.open(scheme_file, "r")
+    if not f then
+        return nil
+    end
+    local line = f:read("*l")
+    f:close()
+    return line
 end
 
 local function write_saved(name)
-	local f = io.open(scheme_file, "w")
-	if f then
-		f:write(name .. "\n")
-		f:close()
-	end
+    local f = io.open(scheme_file, "w")
+    if f then
+        f:write(name .. "\n")
+        f:close()
+    end
 end
 
 -- Restore last saved scheme
 local saved = read_saved()
 if saved then
-	for i, name in ipairs(color_schemes) do
-		if name == saved then
-			scheme_index = i
-			break
-		end
-	end
+    for i, name in ipairs(color_schemes) do
+        if name == saved then
+            scheme_index = i
+            break
+        end
+    end
 end
 
 ----------------------------------------------------------
@@ -96,124 +96,119 @@ end
 
 -- Cycle available themes
 wezterm.on("toggle-color-scheme", function(window, _)
-	scheme_index = scheme_index + 1
-	if scheme_index > #color_schemes then
-		scheme_index = 1
-	end
+    scheme_index = scheme_index + 1
+    if scheme_index > #color_schemes then
+        scheme_index = 1
+    end
 
-	local scheme = color_schemes[scheme_index]
-	write_saved(scheme)
+    local scheme = color_schemes[scheme_index]
+    write_saved(scheme)
 
-	window:set_config_overrides({
-		color_scheme = scheme,
-	})
-	window:toast_notification("Theme changed (saved)", scheme, nil, 3000)
+    window:set_config_overrides({
+        color_scheme = scheme,
+    })
+    window:toast_notification("Theme changed (saved)", scheme, nil, 3000)
 end)
 
 -- Toast theme in use
 wezterm.on("show-theme", function(window, _)
-	local current = read_saved()
-	if not current or current == "" then
-		current = "<none>"
-	end
+    local current = read_saved()
+    if not current or current == "" then
+        current = "<none>"
+    end
 
-	window:toast_notification("Current Theme", current, nil, 3000)
+    window:toast_notification("Current Theme", current, nil, 3000)
 end)
 
 -- Display PowerShell version + ADMIN marker in status area
 wezterm.on("update-right-status", function(window, pane)
-	local is_admin = false
-	if wezterm.is_process_elevated then
-		is_admin = select(2, pcall(wezterm.is_process_elevated)) or false
-	end
-	local admin_flag = (is_admin and wezterm.target_triple:find("windows")) and " [ADMIN]" or ""
+    local is_admin = false
+    if wezterm.is_process_elevated then
+        is_admin = select(2, pcall(wezterm.is_process_elevated)) or false
+    end
+    local admin_flag = (is_admin and wezterm.target_triple:find("windows")) and " [ADMIN]" or ""
 
-	local ps_version = pane:get_user_vars().PSVersion or ""
-	window:set_right_status(" " .. ps_version .. admin_flag)
+    local ps_version = pane:get_user_vars().PSVersion or ""
+    window:set_right_status(" " .. ps_version .. admin_flag)
 end)
 
 ----------------------------------------------------------
 -- MAIN CONFIG
 ----------------------------------------------------------
 return {
-	dpi = 288, -- your preferred DPI
+    dpi = 288, -- your preferred DPI
 
-	window_padding = { left = 0, right = 0, top = 0, bottom = 0 },
+    window_padding = { left = 0, right = 0, top = 0, bottom = 0 },
 
-	--------------------------------------------------------
-	-- Fonts
-	--------------------------------------------------------
-	font = wezterm.font_with_fallback({
-		"JetBrainsMono Nerd Font Mono",
-		"FiraCode Nerd Font Mono",
-		"MesloLGS Nerd Font Mono",
-	}),
-	font_size = 10.0,
+    --------------------------------------------------------
+    -- Fonts
+    --------------------------------------------------------
+    font = wezterm.font_with_fallback({
+        "JetBrainsMono Nerd Font Mono",
+        "FiraCode Nerd Font Mono",
+        "MesloLGS Nerd Font Mono",
+    }),
+    font_size = 10.0,
 
-	--------------------------------------------------------
-	-- Appearance
-	--------------------------------------------------------
-	window_background_opacity = 0.92,
-	window_decorations = "RESIZE",
-	color_scheme = saved or color_schemes[scheme_index],
+    --------------------------------------------------------
+    -- Appearance
+    --------------------------------------------------------
+    window_background_opacity = 0.92,
+    window_decorations = "RESIZE",
+    color_scheme = saved or color_schemes[scheme_index],
 
-	window_background_image = wezdir .. "/background/background.png",
-	colors = {
-		background = "#11121d", --Optional, override to constantly dim brighter colorschemes
-	},
+    window_background_image = wezdir .. "/background/background.png",
+    colors = {
+        background = "", --Optional
+    },
 
-	--------------------------------------------------------
-	-- Shell (auto-cross-platform)
-	--------------------------------------------------------
-	default_prog = wezterm.target_triple:find("windows") and { "pwsh", "-NoLogo" } or { "/usr/bin/env", "bash" },
+    --------------------------------------------------------
+    -- Shell (auto-cross-platform)
+    --------------------------------------------------------
+    default_prog = wezterm.target_triple:find("windows") and { "pwsh", "-NoLogo" } or { "/usr/bin/env", "bash" },
 
-	--------------------------------------------------------
-	-- Keybindings
-	--------------------------------------------------------
-	keys = {
-		{ key = "T", mods = "CTRL|SHIFT", action = act.EmitEvent("toggle-color-scheme") },
-		{ key = "Z", mods = "CTRL|SHIFT", action = act.EmitEvent("show-theme") },
-		{ key = "I", mods = "CTRL|SHIFT", action = act.EmitEvent("show-config-info") },
-		{ key = "R", mods = "CTRL|SHIFT", action = act.ReloadConfiguration },
+    --------------------------------------------------------
+    -- Keybindings
+    --------------------------------------------------------
+    keys = {
+        { key = "S", mods = "CTRL|SHIFT", action = act.EmitEvent("toggle-color-scheme") },
+        { key = "Z", mods = "CTRL|SHIFT", action = act.EmitEvent("show-theme") },
+        { key = "I", mods = "CTRL|SHIFT", action = act.EmitEvent("show-config-info") },
+        { key = "R", mods = "CTRL|SHIFT", action = act.ReloadConfiguration },
 
-		-- Open new tab (same domain)
-		{ key = "t", mods = "CTRL", action = act.SpawnTab("CurrentPaneDomain") },
-	},
+        -- Open new tab (same domain)
+        { key = "t", mods = "CTRL", action = act.SpawnTab("CurrentPaneDomain") },
+    },
 
-	--------------------------------------------------------
-	-- Mouse
-	--------------------------------------------------------
-	mouse_bindings = {
-		{
-			event = { Down = { streak = 1, button = "Right" } },
-			mods = "NONE",
-			action = act.PasteFrom("Clipboard"), --Highlight <text>, paste it by clicking once
-		},
-	},
+    --------------------------------------------------------
+    -- Mouse
+    --------------------------------------------------------
+    mouse_bindings = {
+        {
+            event = { Down = { streak = 1, button = "Right" } },
+            mods = "NONE",
+            action = act.PasteFrom("Clipboard"), --Highlight <text>, paste it by clicking once
+        },
+    },
 
-	---------------------------------------------------------
-	-- SSH
-	---------------------------------------------------------
-	-- ssh_domains = {
-	-- 	{
-	-- 		name = "",
-	-- 		remote_address = "",
-	-- 		username = "",
-	-- 		ssh_option = {
-	-- 			port = "22",
-	-- 			identity_file = "",  -- Example: "C:\\Users\\<you>\\.ssh\\id_ed25519",
-	-- 		},
-	-- 	},
-	-- },
+    ---------------------------------------------------------
+    -- SSH
+    ---------------------------------------------------------
+    -- ssh_domains = {
+    -- 	{
+    -- 		name = "",
+    -- 		remote_address = "",
+    -- 		username = "",
+    -- 		ssh_option = {
+    -- 			port = "22",
+    -- 			identity_file = "",  -- Example: "C:\\Users\\<you>\\.ssh\\id_ed25519",
+    -- 		},
+    -- 	},
+    -- },
 
-	--------------------------------------------------------
-	-- Environment
-	--------------------------------------------------------
-	set_environment_variables = {
-		DOTNET_CLI_TELEMETRY_OPTOUT = "1",
-	},
-
-	window_frame = {
-		font_size = 10.0,
-	},
+    --------------------------------------------------------
+    -- Environment
+    --------------------------------------------------------
+    set_environment_variables = { DOTNET_CLI_TELEMETRY_OPTOUT = "1" },
+    window_frame = { font_size = 10.0 },
 }
